@@ -1,0 +1,101 @@
+Pi Setup Steps
+===================
+
+upgrade and update
+---------------------
+sudo apt-get update
+sudo apt-get upgrade
+
+configure v42l on startup
+----------------------------
+sudo echo "bcm2835-v4l2" >> /etc/modules
+sudo modprobe bcm2835-v4l2
+
+install various software
+-------------------------
+sudo apt-get install git chromium-browser supervisor
+
+mdns stuff
+---------------
+sudo apt-get install libnss-mdns avahi-daemon
+
+save space by removing stuff we dont need
+------------------------------------------
+sudo apt-get purge wolfram-engine
+sudo apt-get purge minecraft-pi
+sudo apt-get purge libreoffice*
+sudo apt-get purge sonic-pi
+sudo apt-get clean
+sudo apt-get autoremove
+
+install mjpg-streamer
+---------------------------
+wget http://lilnetwork.com/download/raspberrypi/mjpg-streamer.tar.gz
+tar xvzf mjpg-streamer.tar.gz
+sudo apt-get install libjpeg8-dev
+sudo apt-get install imagemagick
+cd mjpg-streamer/mjpg-streamer
+make
+cp mjpg_streamer /usr/local/bin
+
+install opencv3
+---------------------------
+(frome here http://www.pyimagesearch.com/2016/04/18/install-guide-raspberry-pi-3-raspbian-jessie-opencv-3/)
+(and here : https://www.theimpossiblecode.com/blog/build-faster-opencv-raspberry-pi3/)
+but the pi already has numpy, python2, and python3, and we dont need virtualenv
+
+sudo apt-get install -y build-essential cmake pkg-config
+sudo apt-get install -y libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev
+sudo apt-get install -y libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
+sudo apt-get install -y libxvidcore-dev libx264-dev
+sudo apt-get install -y libgtk2.0-dev
+sudo apt-get install -y libatlas-base-dev gfortran
+cd /opt
+wget -O opencv.zip https://github.com/opencv/opencv/archive/3.2.0.zip
+unzip opencv.zip
+wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/3.2.0.zip
+unzip opencv_contrib.zip
+mkdir build
+cd build
+cmake -D CMAKE_BUILD_TYPE=RELEASE \
+    -D CMAKE_CXX_FLAGS="-DTBB_USE_GCC_BUILTINS=1 -D__TBB_64BIT_ATOMICS=0"  \
+    -D ENABLE_VFPV3=ON -D ENABLE_NEON=ON  \
+    -D BUILD_TESTS=OFF -D WITH_TBB=ON \
+    -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D INSTALL_PYTHON_EXAMPLES=OFF \
+    -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-3.2.0/modules \
+    -D BUILD_EXAMPLES=OFF ..
+
+make -j4
+make install
+ldconfig
+
+
+set up tmpfs for camera pictures to use
+-------------------------------------------
+mkdir /run/camera
+
+test that mjpg-streamer works
+--------------------------
+mjpg_streamer -i "/opt/mjpg-streamer/mjpg-streamer/input_testpicture.so" -o "./output_http.so -w ./www"
+
+open browser to http://localhost:8080
+
+You should see an image with 'frame 1'
+	from picamera import PiCamera
+	from time import sleep
+	
+	camera = PiCamera()
+	
+	camera.start_preview()
+	sleep(10)
+	camera.stop_preview()
+
+
+test that picamera works
+----------------------------
+run this as camera.py--> you should see a picture
+
+
+
+

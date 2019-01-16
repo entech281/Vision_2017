@@ -1,0 +1,43 @@
+Team 281 Vision System Instructions
+=============================================
+
+Running and Installing
+=========================
+This code is meant to be installed on a system using supervisorD. 
+
+Rough steps are as follows
+ 
+  1. Install system Dependencies ( see doc/PiSetupSteps). Dependencies include supervisord, python3, opencv, numpy
+  2. symlink /etc/supervisor/conf.d/vision.conf to conf/vision.conf
+  3. make /var/log/vision directory and make sure it is writable by the pi user
+  4. configure supervisor to start on boot
+
+
+Updating From Source
+=====================
+run update_code.sh. this will pull the latest from bitbucket
+
+After you do that, you'll want to re-load the processes:
+
+sudo supervisorctl restart all
+
+
+Restarting Processes
+=====================
+The processes run using supervisord. you can see their status, logs, and restart them with these commands:
+
+sudo supervisorctl status             #see status of all processes
+sudo supervisorctl restart all        #restart all processes
+sudo supervisorctl tail visionapp     #see recent logs from visionapp
+
+Seeing CPU Status
+==========================
+run 'htop' at a terminal.  
+
+Changing and Erasing Vision Defaults
+=======================================
+
+defaults can be saved using the 'save defaults button in the web interface.
+These are saved to the pi home directory, /home/pi/vision-defaults.json.
+
+this file can be changed manually, or if removed the system will revert to the prior baked in defaults

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Team 281 Vision System</title>
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/jquery-ui/jquery-ui.theme.min.css">
+  <link rel="stylesheet" href="/jquery-ui/jquery-ui.min.css">
+
+  </head>
+
+  <body>
+   
+    <div class="page-header">
+       <h1>
+            <img src="/favicon-96x96.png" width="60" class="img-rounded" style="margin-left:20px;" /> GreenVillians Vision System
+
+      </h1>
+            <p  ">
+                <a style="margin-left:20px;" href="https://bitbucket.org/entech281/entech281_2017/src/master/Vision/ ">Vision System Help</a>
+            </p>
+    </div>   
+  
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><a id="feedlink" >Video Feed</a><small id="feedurl"></small></h3>
+                  </div>
+                  <div class="panel-body">
+                       <div class="embed-responsive embed-responsive-4by3">
+                          <iframe id="video" class="embed-responsive-item" src="/ajax-loader.gif"></iframe>
+                        </div>
+                      <div>
+                          <h4>Capture/s <small id="frameread"></small></h4>
+                          <h4>Network Publish/s <small id="network"></small></h4>
+                          <h4>Process/s <small id="process"></small></h4>
+                      </div>  
+                  </div>
+                </div>            
+               
+            </div>
+            <div class="col-md-3">
+
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Camera Settings</h3>
+                  </div>
+                  <div class="panel-body">
+
+                           
+                        <form class="form-horizontal">
+                                           
+                  
+                          <div class="form-group">
+                            <label class="col-sm-5 control-label" for="displaymode">Display Mode</label>
+                            <div class="col-sm-7">
+                                <select id="displaymode" class="form-control">
+                                    <option value="IMAGE">IMAGE</option>
+                                    <option value="THRESHOLD">THRESHOLD</option>
+                                </select>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                           <label class="col-sm-5 control-label" for="shutter">Shutter Speed</label>
+                            <div class="col-sm-7">
+                                <input type="text" id="shutter" class="form-control">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                           <label class="col-sm-5 control-label" for="scale">Analysis Scale</label>
+                            <div class="col-sm-7">
+                                <input type="text" id="scale" class="form-control">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                           <label class="col-sm-5 control-label" for="red_gain">Red Gain</label>
+                            <div class="col-sm-7">
+                                <input type="text" id="red_gain" class="form-control">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                           <label class="col-sm-5 control-label" for="blue_gain">Blue Gain</label>
+                            <div class="col-sm-7">
+                                <input type="text" id="blue_gain" class="form-control">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="col-sm-5 control-label" for="blur_diameter">Blur Diameter</label>
+                            <div class="col-sm-7">                               
+                              <input type="text" id="blur_diameter" class="form-control">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="col-sm-5 control-label" for="erode_diameter">Erode Diameter</label>
+                            <div class="col-sm-7">                               
+                               <input type="text" id="erode_diameter" class="form-control">
+                            </div>
+                          </div>
+                          <button id="savebutton" type="button" class="btn btn-primary">Save Defaults</button>
+                        </form>                     
+                  </div>
+
+                </div>        
+
+            </div>
+
+            <div class="col-md-3">
+
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Camera Color Filters</h3>
+                  </div>
+                  <div class="panel-body">                        
+                    <form>
+                            <label for="h-range">Threshold Filters</label>
+
+                            
+                             <div class="form-group">
+
+                                <div id="h-range"></div> 
+                       
+                                    <span class="badge">H</span> 
+                                    <input  type="text" id="hl" readonly style="display:inline-block; vertical-align:middle; border:0; color:#aaaaaa; font-weight:bold;"/>
+                                                                   
+                                    <input  type="text" id="hh" readonly style="display:inline-block; vertical-align:middle; border:0; color:#aaaaaa; font-weight:bold;"/>
+                                     
+
+                             
+                                <span class="badge">S</span><div id="s-range"></div>
+                                <input type="text" id="sl" readonly style="vertical-align:middle; border:0; color:#aaaaaa; font-weight:bold;">
+                                <input type="text" id="sh" readonly style="vertical-align:middle; border:0; color:#aaaaaa; font-weight:bold;">
+
+
+                                <span class="badge">V</span><div id="v-range"></div>                                
+                                <input type="text" id="vl" readonly style="vertical-align:middle; border:0; color:#aaaaaa; font-weight:bold;">
+                                <input type="text" id="vh" readonly style="vertical-align:middle; border:0; color:#aaaaaa; font-weight:bold;">
+                            </div>
+                    </form>
+                  </div>
+               </div>  
+
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Other Info</h3>
+                  </div>
+                  <div class="panel-body">
+
+                      <textarea id="output_data" class="form-control"></textarea>
+                  </div>
+               </div>           
+               
+
+
+            </div>
+        </div>
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+      <script src="/jquery-3.1.1.min.js"></script>  
+      <script src="/jquery-ui/jquery-ui.min.js"></script>
+      <script src="/bootstrap/js/bootstrap.min.js"></script>
+
+
+ <script>
+
+
+  $( function() {
+
+    /**
+        set iframe source to port 8080 on same host 
+      */
+    var a = document.createElement('a')
+    a.setAttribute('href', window.location.href)
+    var mpg_url = "http://" + a.hostname + ":5801/javascript_simple.html";
+    $("#video").attr('src', mpg_url)
+    $("#feedurl").text( "  (" + mpg_url + " )")
+    $("#feedlink").attr("href",mpg_url);
+
+
+
+    var loading = true;
+
+    //load up the data
+    $.get( "/settings", function( data ) {
+      $( "#h-range" ).slider("values",0, data.lower_filter[0]);
+      $( "#h-range" ).slider("values",1, data.upper_filter[0]);
+      $( "#s-range" ).slider("values",0, data.lower_filter[1]);
+      $( "#s-range" ).slider("values",1, data.upper_filter[1]);
+      $( "#v-range" ).slider("values",0, data.lower_filter[2]);
+      $( "#v-range" ).slider("values",1, data.upper_filter[2]);
+      $("#blur_diameter").val(data.blur_diameter);
+      $("#shutter").val(data.shutter_speed);
+      $("#erode_diameter").val(data.erode_diameter);
+      $("#scale").val(data.analysis_scale);
+      $("#red_gain").val(data.red_gain);
+      $("#blue_gain").val(data.blue_gain);
+      $("#displaymode").val(data.display_mode);
+
+      $( "#hl" ).val(  data.lower_filter[0]);
+      $( "#hh" ).val(  data.upper_filter[0]);  
+      $( "#sl" ).val(  data.lower_filter[1]);
+      $( "#sh" ).val(  data.upper_filter[1]); 
+      $( "#vl" ).val(  data.lower_filter[2]);
+      $( "#vh" ).val(  data.upper_filter[2]);   
+
+      loading = false;                
+    }); 
+
+    function updateData(){
+	    $.get( "/data", function( data ) {
+	      $( "#output_data" ).val( JSON.stringify(data) );
+              $("#network").text(data["timings"]["network"]);
+              $("#process").text(data["timings"]["process"]);
+              $("#frameread").text(data["timings"]["frameread"]);
+	    });    
+    }
+
+
+
+    function save(save_perm){
+        if ( ! loading ){
+            $.ajax({
+                    type        :   'POST'  ,
+                    url         :   "/settings?perm=" + save_perm,
+                    contentType :   'application/json', 
+                    dataType: "json",               
+                    data        : JSON.stringify(  {
+                        'lower_filter' : [ $('#hl').val(), $('#sl').val() ,$('#vl').val() ],
+                        'upper_filter': [ $('#hh').val(), $('#sh').val() ,$('#vh').val() ],
+                        'analysis_scale' : $("#scale").val(),
+                        'blur_diameter' : $("#blur_diameter").val(),
+                        'erode_diameter' : $("#erode_diameter").val(),
+                        'shutter_speed': $("#shutter").val(),
+                        'red_gain' : $("#red_gain").val(),
+                        'blue_gain' : $("#blue_gain").val(),
+                        'display_mode' : $("#displaymode").val() 
+                    } )
+
+            }); 
+            
+        }
+       
+    }
+
+    $('#savebutton').click( function(){
+        save(true);
+    });
+
+    var hslider = $( "#h-range" ).slider({
+      range: true,
+      min: 0,
+      max: 180,
+      values: [ 0, 180 ],
+      slide: function( event, ui ) {
+        $( "#hl" ).val(  ui.values[ 0 ]);
+        $( "#hh" ).val(  ui.values[ 1 ]);  
+      },
+      change: function ( event, ui ){
+        save(false);
+      }
+    });
+
+    var sslider = $( "#s-range" ).slider({
+      range: true,
+      min: 0,
+      max: 255,
+      values: [ 0, 255 ],
+      slide: function( event, ui ) {
+        $( "#sl" ).val(  ui.values[ 0 ]);
+        $( "#sh" ).val(  ui.values[ 1 ]);  
+      },
+      change: function ( event, ui ){
+        save(false);
+      }
+
+    });
+
+    var vslider= $( "#v-range" ).slider({
+      range: true,
+      min: 0,
+      max: 255,
+      values: [ 0, 255 ],
+      slide: function( event, ui ) {
+        $( "#vl" ).val(  ui.values[ 0 ]);
+        $( "#vh" ).val(  ui.values[ 1 ]);  
+      },
+      change: function ( event, ui ){
+        save(false);
+      }
+
+    });
+
+
+    $("#blur_diameter").change( function(){
+        save(false);
+    });
+    $("#erode_diameter").change( function(){
+        save(false);
+    });
+    $("#shutter").change( function(){
+        save(false);
+    });
+    $("#displaymode").change( function(){
+        save(false);
+    });     
+    $("#scale").change( function(){
+        save(false);
+    });  
+
+    $("#red_gain").change( function(){
+        save(false);
+    }); 
+
+    $("#blue_gain").change( function(){
+        save(false);
+    }); 
+
+    updateData();
+    setInterval( function(){
+       updateData();
+    }, 1000 );
+
+
+  } );
+
+  </script>
+
+  </body>
+</html>
+
+
